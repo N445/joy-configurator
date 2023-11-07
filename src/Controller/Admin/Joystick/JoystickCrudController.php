@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Joystick;
 
 use App\Entity\Joystick\Joystick;
-use App\Entity\Joystick\Key;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class JoystickCrudController extends AbstractCrudController
 {
@@ -24,7 +25,17 @@ class JoystickCrudController extends AbstractCrudController
             TextField::new('name'),
             TextField::new('orientation'),
             AssociationField::new('brand'),
+            DateTimeField::new('createdAt')->hideOnForm(),
+            DateTimeField::new('updatedAt')->hideOnForm(),
             CollectionField::new('keys')->useEntryCrudForm(),
+            ImageField::new('imageName')
+                 ->setBasePath('/uploads/joystick')
+                 ->hideOnForm()
+            ,
+            Field::new('imageFile')
+                 ->setFormType(VichImageType::class)
+                 ->onlyOnForms()
+            ,
         ];
     }
 }
